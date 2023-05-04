@@ -8,15 +8,14 @@ const port = 3001
 app.get('/', (req, res) => res.status(200).send('server running yeah') )
 
 async function get_tracking_number_by_order_id(order_id) {
-    let tracking_url = null;
+    const TRACKING_URL_PREFIX = 'http://wwwapps.ups.com/WebTracking/processRequest?&tracknum=';
     try {
         let shipments = await request(`v2/orders/${order_id}/shipments`, 'get');
-        if (shipments !== null && shipments.length > 0) {
+        if (shipments?.[0]?.tracking_number) {
             let first_shipment = shipments[0];
             let tracking_info = (first_shipment.hasOwnProperty('tracking_number')) ? first_shipment.tracking_number : null;
             if (tracking_info !== null) {
-                // tracking_url = `https://www.${carrier.toLowerCase()}.com/tracking/${tracking_info}`;
-                tracking_url = `http://wwwapps.ups.com/WebTracking/processRequest?&tracknum=${tracking_info}`;
+                tracking_url = `${TRACKING_URL_PREFIX}${tracking_info}`;
                 console.log(`tracking def > order_id:  ${order_id}`)
                 console.log(`tracking def > tracking_id:  ${tracking_info}`)
                 return tracking_url;
