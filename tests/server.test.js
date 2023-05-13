@@ -1,14 +1,35 @@
-jest.mock('../server');
-const get_tracking_number_by_order_id  = require('../server');
+const supertest = require('supertest');
+const {app, server} = require('../server');
 
-it("test_tracking_number_found", async () => {
-    const mockRequest = jest.fn().mockResolvedValue([{tracking_number: "123456789"}]);
-    const result = await get_tracking_number_by_order_id(123);
-    expect(result).toBe("http://wwwapps.ups.com/WebTracking/processRequest?&tracknum=123456789");
+const api = supertest(app);
+
+describe('GET /', () => {
+  it('responds with server running', async () => {
+    const response = await api
+        .get('/');
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toBe('server running yeah');
+  });
 });
 
-it("test_no_tracking_number_found", async () => {
-    const mockRequest = jest.fn().mockResolvedValue([{not_tracking_number: "123456789"}]);
-    const result = await get_tracking_number_by_order_id(123);
-    expect(result).toBeNull();
+describe('POST /webhook', () => {
+  it('should return a valid response with order status and tracking link for a valid email', async () => {
+    const res = await api
+        .post('/webhook')
+        .send({
+          queryResult: {
+            action: 'check_order_status',
+            parameters: {
+              email: 'johndoe@example.com'
+            }
+          }
+      });
+
+    expect(res.status).toEqual(200);
+    expect(res.body.fulfillmentText).toContain('Great news!');
+  });
+});
+
+afterAll(() => {
+    server.close();
 });
