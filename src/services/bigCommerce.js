@@ -28,10 +28,8 @@ const options = {
     }
   };
 
-  const request = async (path, method = 'get') => {
+  const bigcommerceReq = async (path, method = 'get') => {
     const url = base_url + path;
-    // const url = "https://api.bigcommerce.com/stores/wp1youxqtj/v2/orders";
-    // options.method = method;
     try {
       const response = await fetch(url, options);
       const data = await response.json();
@@ -44,4 +42,4 @@ const options = {
   }
   
 
-module.exports = { request };
+module.exports = { bigcommerceReq };

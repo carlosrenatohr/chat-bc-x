@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon -r dotenv/config src/server.js",
-    "test": "jest --verbose --detectOpenHandles",
+    "serve": "nodemon -r dotenv/config server.js",
+    "test": "jest --verbose --detectOpenHandles --silent",
+    "test:watch": "npm run test -- --watch",
     "lint": "eslint . --ext .js"
   },
   "author": "",
