@@ -1,10 +1,9 @@
-const express = require('express')
-const { bigcommerceReq } = require('./services/bigcommerce')
-const app = express()
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const express = require('express');
+const router = express.Router();
 
-app.get('/', (req, res) => res.status(200).send('server running yeah') )
+const { bigcommerceReq } = require('../services/bigCommerce.js');
+
+router.get('/', (req, res) => res.status(200).send('server running yeah') )
 
 async function get_tracking_number_by_order_id(order_id) {
     const TRACKING_URL_PREFIX = 'http://wwwapps.ups.com/WebTracking/processRequest?&tracknum=';
@@ -74,8 +73,8 @@ async function get_order_status_by_email(email) {
     return {order_status, tracking_link};
 }
 
-
-app.post('/webhook', async (req, res) => {
+// router.post('/webhook', async (req, res) => {
+const webhookFn = async (req, res) => {
     console.log('Webhook received');
     let response_text = `I'm sorry, I don't understand. Could you provide more information?`,
          order_status = null, tracking_link = null;
@@ -117,7 +116,8 @@ app.post('/webhook', async (req, res) => {
     }
             
     return res.json({ fulfillmentText: response_text });
-})
+}
 
 
-module.exports = app ;
+// module.exports = router ;
+module.exports = { webhookFn }
