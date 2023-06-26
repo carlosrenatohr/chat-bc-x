@@ -1,4 +1,3 @@
-// const BigCommerce = require('node-bigcommerce');
 // import fetch from 'node-fetch';
 const fetch = (...args) =>
 	import('node-fetch').then(({default: fetch}) => fetch(...args));
@@ -42,4 +41,4 @@ const options = {
   }
   
 
-module.exports = { bigcommerceReq };
+export default bigcommerceReq;

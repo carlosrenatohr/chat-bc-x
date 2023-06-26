@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const app = express();
 
-const middleware = require('./src/middlewares');
-const orderRouter = require('./src/routes/order');
+import middleware  from './src/middlewares/index.js';
+import orderRouter from './src/routes/order.js';
 
 app.use(middleware);
 app.use(orderRouter);
@@ -19,4 +19,4 @@ function startServer() {
 startServer();
 
 
-module.exports = startServer;
+export default startServer;

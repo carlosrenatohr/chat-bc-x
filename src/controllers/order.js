@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const { bigcommerceReq } = require('../services/bigCommerce.js');
+import bigcommerceReq from '../services/bigCommerce.js';
 
 router.get('/', (req, res) => res.status(200).send('server running yeah') )
 
@@ -119,5 +119,4 @@ const webhookFn = async (req, res) => {
 }
 
 
-// module.exports = router ;
-module.exports = { webhookFn }
+export default { webhookFn }

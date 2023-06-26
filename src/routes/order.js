@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
+import orderController from '../controllers/order.js';
 const router = express.Router();
-const orderController  = require('../controllers/order');
 
 router.get('/', (req, res) => res.status(200).send('server running yeah') )
 router.post('/webhook', orderController.webhookFn);
 
-module.exports = router; 
+export default router;
