@@ -8,7 +8,7 @@ app.use(middleware);
 app.use(orderRouter);
 
 function startServer() {
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT || 3003;
 
     const server = app.listen(PORT, () => {
         console.log(`App listening on port ${PORT}!`)
@@ -19,4 +19,4 @@ function startServer() {
 startServer();
 
 
-export default startServer;
+export { app, startServer };
